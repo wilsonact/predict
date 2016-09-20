@@ -52,8 +52,8 @@ def read_table(sql_col_list, l1_num, l2_num):
         passwd='Iccc2016datapmd', db='pmd')
     # sql1 = 'SELECT amount_usd_this3mon,amount_rmb_this3mon,ss_pt_amount_all_thismon,ss_pt_amount_all_pre1mon,ss_pt_amount_all_pre4mon,ss_pt_amount_all_pre2mon,na_cust_nbr,bs_crlimit,ss_pt_amount_all_pre3mon,bs_int_bnp,age,epp_limit_status,love_yyh,huge_pay,bs_avl_bal,epp_rush_amounts,home_care_times,bs_cash_bal_bnp,ss_pt_amount_wholesale_thismon,ss_pt_amount_digital_pre5mon,deferd_day,love_car,ss_pt_amount_wholesale_pre2mon,ss_pt_amount_wholesale_pre1mon,hb_fh_percent_14entire,ss_pt_amount_all_pre5mon,bs_mp_bal_bnp,no_anypay_status,ss_pt_amount_life_pre1mon,ss_pt_amount_life_pre3mon,ss_pt_amount_life_thismon,ss_pt_amount_wholesale_pre3mon,ss_pt_amount_life_pre2mon,ss_pt_amount_wholesale_pre4mon,ss_pt_amount_digital_thismon,ss_pt_amount_life_pre4mon,ss_pt_amount_cinema_pre5mon,ss_pt_amount_digital_pre1mon,ss_pt_amount_digital_pre2mon,cash_amounts,ss_pt_amount_digital_pre3mon,ss_pt_amount_dailyuse_pre1mon,ss_pt_amount_digital_pre4mon,ss_pt_amount_fin_pre5mon,ss_pt_amount_dailyuse_thismon,ss_pt_amount_dailyuse_pre2mon,bs_retail_bal_bnp,ss_pt_amount_dailyuse_pre4mon,ss_pt_amount_dailyuse_pre3mon,his_sus_prom_times,ss_pt_amount_food_pre5mon,ss_pt_amount_dailyuse_pre5mon,ss_pt_amount_hotel_pre5mon,ss_pt_amount_food_pre1mon,tv_amounts,line_incr,ss_pt_amount_food_thismon,ss_pt_amount_food_pre2mon,ss_pt_amount_mall_thismon,other_province,ss_pt_amount_food_pre4mon,ss_pt_amount_mall_pre1mon,ss_pt_amount_business_pre1mon,ss_pt_amount_business_thismon,net_pos_times FROM tm_train where label = 0 limit 150000 ;'
 
-    sql1 = 'SELECT ' +  sql_col_list + ' FROM tm_03_test where amount_rmb_this3mon>0 and label = 0 limit ' + str(l1_num) +';'
-    sql2 = 'SELECT ' +  sql_col_list + ' FROM tm_03_test where amount_rmb_this3mon>0 and label = 1 limit ' + str(l2_num) +';'
+    sql1 = 'SELECT ' +  sql_col_list + ' FROM ZD_07_train where amount_rmb_this3mon>0 and label = 0 limit ' + str(l1_num) +';'
+    sql2 = 'SELECT ' +  sql_col_list + ' FROM ZD_07_train where amount_rmb_this3mon>0 and label = 1 limit ' + str(l2_num) +';'
 
     df1 = pd.read_sql_query(sql1, conn)
     df1 = df1.replace('NULL', 0)
@@ -76,7 +76,7 @@ def select_test(sql_col_list, n):
         passwd='Iccc2016datapmd', db='pmd')
 
     # sql3 = 'SELECT amount_usd_this3mon,amount_rmb_this3mon,ss_pt_amount_all_thismon,ss_pt_amount_all_pre1mon,ss_pt_amount_all_pre4mon,ss_pt_amount_all_pre2mon,na_cust_nbr,bs_crlimit,ss_pt_amount_all_pre3mon,bs_int_bnp,age,epp_limit_status,love_yyh,huge_pay,bs_avl_bal,epp_rush_amounts,home_care_times,bs_cash_bal_bnp,ss_pt_amount_wholesale_thismon,ss_pt_amount_digital_pre5mon,deferd_day,love_car,ss_pt_amount_wholesale_pre2mon,ss_pt_amount_wholesale_pre1mon,hb_fh_percent_14entire,ss_pt_amount_all_pre5mon,bs_mp_bal_bnp,no_anypay_status,ss_pt_amount_life_pre1mon,ss_pt_amount_life_pre3mon,ss_pt_amount_life_thismon,ss_pt_amount_wholesale_pre3mon,ss_pt_amount_life_pre2mon,ss_pt_amount_wholesale_pre4mon,ss_pt_amount_digital_thismon,ss_pt_amount_life_pre4mon,ss_pt_amount_cinema_pre5mon,ss_pt_amount_digital_pre1mon,ss_pt_amount_digital_pre2mon,cash_amounts,ss_pt_amount_digital_pre3mon,ss_pt_amount_dailyuse_pre1mon,ss_pt_amount_digital_pre4mon,ss_pt_amount_fin_pre5mon,ss_pt_amount_dailyuse_thismon,ss_pt_amount_dailyuse_pre2mon,bs_retail_bal_bnp,ss_pt_amount_dailyuse_pre4mon,ss_pt_amount_dailyuse_pre3mon,his_sus_prom_times,ss_pt_amount_food_pre5mon,ss_pt_amount_dailyuse_pre5mon,ss_pt_amount_hotel_pre5mon,ss_pt_amount_food_pre1mon,tv_amounts,line_incr,ss_pt_amount_food_thismon,ss_pt_amount_food_pre2mon,ss_pt_amount_mall_thismon,other_province,ss_pt_amount_food_pre4mon,ss_pt_amount_mall_pre1mon,ss_pt_amount_business_pre1mon,ss_pt_amount_business_thismon,net_pos_times FROM tm_test  limit ' + str(n) + ',50000;'
-    sql3 = 'SELECT ' +sql_col_list + ' FROM tm_06_test where amount_rmb_this3mon>0 limit ' + \
+    sql3 = 'SELECT ' +sql_col_list + ' FROM ZD_07_test where amount_rmb_this3mon>0 limit ' + \
         str(n) + ',150000;'
 
     df_all = pd.read_sql_query(sql3, conn)
@@ -322,31 +322,31 @@ ax.set_title('ROC Curve')
 
 # Validate the rest of Sample Data
 
-tab, y_test, p1, anypay_score = predict_test(clf_rf,  X_v_rf,   Y_v_rf )
-print(tab)
-fpr, tpr, th = roc_curve(y_test, p1)
-ax.plot(fpr, tpr, label = 'rf')
-fpr, tpr, th = roc_curve(y_test, anypay_score)
-ax.plot(fpr, tpr, label = 'anypay_score')
+# tab, y_test, p1, anypay_score = predict_test(clf_rf,  X_v_rf,   Y_v_rf )
+# print(tab)
+# fpr, tpr, th = roc_curve(y_test, p1)
+# ax.plot(fpr, tpr, label = 'rf')
+# fpr, tpr, th = roc_curve(y_test, anypay_score)
+# ax.plot(fpr, tpr, label = 'anypay_score')
 
-tab, y_test, p1, anypay_score = predict_test(clf_gbdt,X_v_gbdt, Y_v_gbdt)
-print (tab)
-fpr, tpr, th = roc_curve(y_test, p1)
-ax.plot(fpr, tpr, label = 'gbdt')
+# tab, y_test, p1, anypay_score = predict_test(clf_gbdt,X_v_gbdt, Y_v_gbdt)
+# print (tab)
+# fpr, tpr, th = roc_curve(y_test, p1)
+# ax.plot(fpr, tpr, label = 'gbdt')
 
-tab, y_test, p1, anypay_score = predict_test(clf_dt,  X_v_dt,   Y_v_dt)
-print (tab)
-fpr, tpr, th = roc_curve(y_test, p1)
-ax.plot(fpr, tpr, label = 'dt')
+# tab, y_test, p1, anypay_score = predict_test(clf_dt,  X_v_dt,   Y_v_dt)
+# print (tab)
+# fpr, tpr, th = roc_curve(y_test, p1)
+# ax.plot(fpr, tpr, label = 'dt')
 
-tab, y_test, p1, anypay_score = predict_test(clf_svm, X_v_svm,  Y_v_svm)
-print (tab)
-fpr, tpr, th = roc_curve(y_test, p1)
-ax.plot(fpr, tpr,label = 'svm')
-ax.legend(loc='best')
-print('test finished')
-pylab.grid(True)
-pylab.show()
+# tab, y_test, p1, anypay_score = predict_test(clf_svm, X_v_svm,  Y_v_svm)
+# print (tab)
+# fpr, tpr, th = roc_curve(y_test, p1)
+# ax.plot(fpr, tpr,label = 'svm')
+# ax.legend(loc='best')
+# print('test finished')
+# pylab.grid(True)
+# pylab.show()
 
 
 # Predict and Fit
